@@ -72,7 +72,7 @@ Functions may be called using the following syntax:
 <function-name>([parameter][,<parameter> ...])
 ```
 
-Internal functions and any previously defined function can be used. To do recursion with a static script, a stub script
+Built-in functions and any previously defined function can be used. To do recursion with a static script, a stub script
 with the same script name must be defined. Halo's low static allocation for scripts may cause issues with deep
 recursion.
 
