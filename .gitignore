@@ -1,0 +1,2 @@
+# Prevent compiled files from accidentally entering the repo
+*.pyc
