@@ -24,7 +24,7 @@
 import sys
 
 # Import serpent stuff
-from compiler import compile_script
+from compiler import compile_script, CompileError
 from error import show_message_for_character, error
 from parser import parse, ParserError
 from tokenizer import tokenize, TokenError
@@ -64,7 +64,14 @@ def serpent(args):
         return
 
     # Make it into a hsc thing
-    compiled = compile_script(parsed)
+    compiled = None
+    try:
+        compiled = compile_script(parsed)
+    except CompileException as e:
+        error("An error occurred when compiling: {:s}".format(e.message))
+        return
+
+    # Save
     with open(args[2],"w+") as f:
         f.write(compiled + "\n")
 

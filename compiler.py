@@ -26,10 +26,12 @@ import sys
 from tokenizer import Token, TokenType
 from parser import Statement, StatementType
 
-def CompileException(Exception):
-    what = None
-    def __main__(self, what):
-        self.what = what
+class CompileError(Exception):
+    message = None
+    def __init__(self, message):
+        self.message = message
+    def __str__(self):
+        return "CompileError: {:s}".format(self.message)
 
 # Translate a statement tree or token into its HSC equivalent
 def compile_script(statement):
