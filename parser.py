@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 #
-# Serpent version 1.1.0
+# parser.py
+#
 # Copyright (c) 2019 Kavawuvi
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
