@@ -36,6 +36,7 @@ from error import show_message_for_character, error
 from parser import parse, ParserError
 from tokenizer import tokenize, TokenError
 
+# Entry point
 def serpent(args):
     # Make sure we have the right number of arguments
     if len(args) != 3:
@@ -46,20 +47,26 @@ def serpent(args):
     # Get the tokens
     tokens = []
     lines = []
-    with open(args[1], "r") as f:
-        line = 0
-        text = f.readline()
-        while text != "":
-            line = line + 1
-            try:
-                tokens.extend(tokenize(text, line))
-            except TokenError as e:
-                error("An error occurred when tokenizing: {:s}".format(e.message))
-                show_message_for_character(line, e.character, text, e.message_under)
-                return
 
-            lines.append(text)
+    # Open the thing
+    try:
+        with open(args[1], "r") as f:
+            line = 0
             text = f.readline()
+            while text != "":
+                line = line + 1
+                try:
+                    tokens.extend(tokenize(text, line))
+                except TokenError as e:
+                    error("An error occurred when tokenizing: {:s}".format(e.message))
+                    show_message_for_character(line, e.character, text, e.message_under)
+                    return
+
+                lines.append(text)
+                text = f.readline()
+    except FileNotFoundError as e:
+        error("An error occurred while opening: {:s}".format(str(e)))
+        return
 
     # Parse it
     parsed = None
