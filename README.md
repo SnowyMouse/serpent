@@ -3,6 +3,9 @@ Halo Script without the LISP
 
 Requires Python 3 and the Halo Editing Kit.
 
+## Usage
+`serpent.py <serpent-script-file-path> <output-script-file-path>`
+
 ## Example script
 ```
 global string hello_world = "hello world"
