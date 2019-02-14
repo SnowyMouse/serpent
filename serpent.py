@@ -32,7 +32,7 @@ from tokenizer import tokenize, TokenError
 def serpent(args):
     # Make sure we have the right number of arguments
     if len(args) != 3:
-        print("Serpent version 1.1.0 by Kavawuvi (2019-02-13)", file=sys.stderr)
+        print("Serpent version 1.2.0 by Kavawuvi (2019-02-13)", file=sys.stderr)
         print(args[0] + " <input-script> <output-script>", file=sys.stderr)
         return
 
