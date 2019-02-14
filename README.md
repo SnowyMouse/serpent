@@ -47,7 +47,7 @@ called in a static or stub script will be the value it returns. Note that Halo d
 parameters. Therefore, globals must be used.
 
 ### If statements
-If/else(if) statements can be defined with the following syntax:
+If/else(if) statements can be used with the following syntax:
 
 ```
 if <expression> [...] [elseif <expression> [...] ...] [else [...]] end
@@ -63,13 +63,14 @@ Variables may be set using the following syntax:
 <variable> = <expression>
 ```
 
-This will invoke Halo's `(set)` function. Therefore, using `set(variable, expression)` will have the same result.
+This will invoke Halo's `(set)` function. Therefore, using `set(variable, expression)` will have the same result. Note
+that only global variables can be set. Halo does not support local variables.
 
 ### Calling functions
 Functions may be called using the following syntax:
 
 ```
-<function-name>([parameter][,<parameter> ...])
+<function-name>([parameter-expression][, <parameter-expression> ...])
 ```
 
 Built-in functions and any previously defined function can be used. To do recursion with a static script, a stub script
