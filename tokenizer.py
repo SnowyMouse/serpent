@@ -167,7 +167,7 @@ def tokenize(text, line):
             continue
 
         # Symbols that can be combined
-        if c == "=" or c == ">" or c == "<" or c == "&" or c == "|" or c in ARITHMETIC_SYMBOLS:
+        if c == "=" or c == ">" or c == "<" or c == "&" or c == "|" or c in ARITHMETIC_SYMBOLS or c == "!":
             if token.token_type == TokenType.SYMBOL:
                 token.token += c
             elif token.token_type == TokenType.INTEGER or token.token_type == TokenType.FLOAT or token.token_type == TokenType.OTHER:
