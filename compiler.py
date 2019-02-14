@@ -103,7 +103,6 @@ def compile_script(statement):
             compiled = "(if"
 
             if len(statement.children) != 2 and len(statement.children) != 3:
-                print("If statement doesn't have the right number of children", file=sys.stderr)
                 raise CompileException("invalid if statement")
 
             # Condition
@@ -131,5 +130,4 @@ def compile_script(statement):
             return compiled
 
         else:
-            print("I don't know what {:s} is".format(str(type)), file=sys.stderr)
             raise CompileException("unimplemented")
