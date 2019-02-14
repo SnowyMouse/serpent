@@ -2,6 +2,12 @@
 #
 # serpent.py
 #
+# NOTE: THIS FILE IS INTENDED TO BE USED AS A STANDALONE COMMAND-LINE PROGRAM.
+#
+# If you want to implement serpent into your own tool, it is highly recommended
+# that you call the functions separately rather than import this file. See
+# README.md for more information.
+#
 # Copyright (c) 2019 Kavawuvi
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
