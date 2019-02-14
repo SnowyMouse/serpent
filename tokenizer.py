@@ -34,6 +34,8 @@ class TokenError(Exception):
         self.character = character
         self.message = message
         self.message_under = message_under
+    def __str__(self):
+        return "TokenError: {:s}".format(self.message)
 
 # Types of tokens
 class TokenType(Enum):

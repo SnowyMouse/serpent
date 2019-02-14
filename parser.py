@@ -46,6 +46,8 @@ class ParserError(Exception):
         self.token = token
         self.message = message
         self.message_under = message_under
+    def __str__(self):
+        return "ParserError: {:s}".format(self.message)
 
 SCRIPT_TYPES = [
     "static",
