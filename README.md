@@ -93,6 +93,7 @@ There are several different operators which can be used for logic.
 | `a >= b`  | true if a is greater than or equal to b |
 | `a and b` | true if a and b are true                |
 | `a or b`  | true if a or b are true                 |
+| `!a`      | true if a is not true                   |
 
 #### Order of operations
 Halo's LISP does not have any concept of order of operations, as each operation is evaluated first-to-last. Operations
@@ -101,6 +102,7 @@ evaluated in whichever order they appear in the script.
 
 | Operators            |
 | -------------------- |
+| `!`                  |
 | `*`, `/`             |
 | `+`, `-`             |
 | `<`, `>`, `<=`, `>=` |

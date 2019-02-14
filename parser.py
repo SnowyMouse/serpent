@@ -397,7 +397,7 @@ def parse_expression(tokens, next_token, parenthesis = False, in_function = Fals
         token = copy(tokens[last_token])
 
         # If it's a symbol, maybe we can handle it?
-        if token.token_type == TokenType.SYMBOL or token.token in LOGICAL_OPERATORS:
+        if (token.token_type == TokenType.SYMBOL or token.token in LOGICAL_OPERATORS) and (token.token != "!"):
             # Add expressions in expressions, or a function
             if token.token == "(":
                 if last_type == None or last_type == LastType.ARITHMETIC_OPERATOR:
@@ -478,6 +478,29 @@ def parse_expression(tokens, next_token, parenthesis = False, in_function = Fals
                     raise ParserError(token, "Unexpected token in expression", "Token used here")
                 else:
                     break
+
+            # Not function?
+            elif token.token == "!":
+                new_statement = Statement()
+                new_statement.statement_type = StatementType.FUNCTION_CALL
+                new_statement.function_name = "not"
+
+                if last_token + 1 == len(tokens):
+                    raise ParserError(token, "Expected expression", "Expression expected after here")
+
+                if tokens[last_token + 1].token == "(":
+                    parameter = parse_expression(tokens, last_token + 1, True)
+                    new_statement.children = [parameter]
+                    new_statement.token_count = parameter.token_count + 1
+                else:
+                    new_statement.children = [tokens[last_token + 1]]
+                    new_statement.token_count = 2
+
+                last_token = last_token + new_statement.token_count
+                parts.append(new_statement)
+                last_type = LastType.NON_SYMBOL
+                
+                continue
 
             # Maybe the expression is being cut too short by an end?
             elif token.token == "end" or token.token == "else" or token.token == "elseif":
