@@ -107,3 +107,16 @@ evaluated in whichever order they appear in the script.
 
 To make code more readable and prevent unexpected logical errors, it is generally recommended to use parenthesis when
 combining `and` and `or` in a single expression.
+
+## Using serpent in your own tool
+If you want to use serpent, it is recommended that you do not implement the serpent.py, itself, as it is intended to be
+used as a standalone command-line program. Instead, you should call the functions that serpent.py calls, as this will
+allow you to do error handling.
+
+To do this, these are the the three functions you will need to call:
+
+| Function               | File         | Usage                                                         | Error         |
+| ---------------------- | ------------ | ------------------------------------------------------------- | ------------- |
+| `tokenize(text, line)` | tokenizer.py | Return an array of tokens for the given line text and number. | TokenError    |
+| `parse(tokens)`        | parser.py    | Return an statement tree for the given tokens.                | ParserError   |
+| `compile(statement)`   | compiler.py  | Recursively generate a HSC script from the statement tree.    | CompilerError |
