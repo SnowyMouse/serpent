@@ -1,4 +1,4 @@
-# serpent 1.1.0
+# serpent 1.2.0
 Halo Script without the LISP
 
 Requires Python 3 and the Halo Editing Kit.
