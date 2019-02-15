@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 #
-# error.py
+# error/__init__.py
+#
+# NOTE: THIS MODULE IS INTENDED TO BE USED FOR ERROR-HANDLING FOR SERPENT.PY.
+#
+# If you want to implement serpent into your own tool, this module will not be
+# of any use to you.
 #
 # Copyright (c) 2019 Kavawuvi
 #
