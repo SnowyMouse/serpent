@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reorganized the file structure. All functions for converting scripts are now stored in a submodule.
 - `compile()` is changed to `compile_hsc_script()`
 - `parse()` is changed to `parse_serpent_script()`
+- Python's `argparse` is used for parsing arguments now
 
 ## [1.3.0] - 2019-02-14
 ### Added
