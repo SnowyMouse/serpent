@@ -4,7 +4,16 @@ Halo Script without the LISP
 Requires Python 3 and the Halo Editing Kit.
 
 ## Usage
-`serpent.py <serpent-script-file-path> <output-script-file-path>`
+`serpent.py [-h] <input> <output>`
+
+## Files
+| File         | Purpose                                 |
+| ------------ | --------------------------------------- |
+| compiler.py  | Compile parsed scripts into HSC scripts |
+| error.py     | Error handling (command-line)           |
+| parser.py    | Parsing HSC scripts                     |
+| serpent.py   | serpent program (command-line)          |
+| tokenizer.py | Convert scripts into tokens             |
 
 ## Example script
 ```
