@@ -23,4 +23,5 @@
 # SOFTWARE.
 
 from .serpent_parser import parse as parse_serpent_script
+from .hsc_parser import parse as parse_hsc_script
 from .types import StatementType, ParserError, SCRIPT_TYPES, VALUE_TYPES, Statement

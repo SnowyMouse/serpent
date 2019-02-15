@@ -55,6 +55,8 @@ def compile_script(statement):
 
         # Expression
         elif type == StatementType.EXPRESSION:
+            if len(statement.children) != 1:
+                raise CompileError("invalid expression")
             return compile_script(statement.children[0])
 
         # Function call

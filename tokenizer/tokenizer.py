@@ -174,7 +174,7 @@ def tokenize(text, line):
                 invalid_token_message(c, character, "Unexpected symbol here")
 
         # Comments
-        if c == "#":
+        if c == "#" or c == ";":
             if token.token_type == TokenType.FLOAT_DECIMAL:
                 invalid_token_message(c, character, "Expected number here")
             elif token.token != "":

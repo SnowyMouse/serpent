@@ -35,14 +35,17 @@ import argparse
 from tokenizer import tokenize, TokenError
 from compiler import compile_hsc_script, CompileError
 from error import show_message_for_character, error
-from parser import parse_serpent_script, ParserError
+from parser import parse_serpent_script, parse_hsc_script, ParserError
 
 # Entry point
 def serpent():
     parser = argparse.ArgumentParser(description="Serpent version 2.0.0")
+    parser.add_argument("--reverse", const=True, default=False, dest="reverse", action="store_const", help="Convert a Halo script to serpent")
     parser.add_argument("input", help="Path to input script")
     parser.add_argument("output", help="Path to output script")
     args = parser.parse_args()
+
+    parser = parse_hsc_script if args.reverse else parse_serpent_script
 
     # Get the tokens
     tokens = []
@@ -71,7 +74,7 @@ def serpent():
     # Parse it
     parsed = None
     try:
-        parsed = parse_serpent_script(tokens)
+        parsed = parser(tokens)
     except ParserError as e:
         error("An error occurred when parsing: {:s}".format(e.message))
         show_message_for_character(e.token.line, e.token.character, lines[e.token.line - 1], e.message_under)

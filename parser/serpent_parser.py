@@ -25,7 +25,6 @@
 import sys
 from copy import copy
 from error import warning, error, show_message_for_character
-from enum import Enum
 from tokenizer import Token, TokenType, ARITHMETIC_SYMBOLS, EQUALITY_OPERATORS, RELATIONAL_OPERATORS, LOGICAL_OPERATORS
 from .types import StatementType, ParserError, SCRIPT_TYPES, VALUE_TYPES, Statement
 
@@ -80,7 +79,7 @@ def parse_global(tokens, next_token):
 
     # Also make sure it's a valid global name
     if global_name.token_type != TokenType.OTHER:
-        raise ParserError(tokens[next_token + 2], "Invalid global name {:s}".format(global_name.token), "Global name defined here")
+        raise ParserError(global_name, "Invalid global name {:s}".format(global_name.token), "Global name defined here")
     else:
         statement.global_name = global_name.token
 
