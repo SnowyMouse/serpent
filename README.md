@@ -1,4 +1,4 @@
-# serpent 1.4.0
+# serpent 2.0.0
 Halo Script without the LISP
 
 Requires Python 3 and the Halo Editing Kit.
@@ -127,10 +127,10 @@ If you want to use serpent, it is recommended that you do not implement the serp
 used as a standalone command-line program. Instead, you should call the functions that serpent.py calls, as this will
 allow you to do error handling.
 
-To do this, these are the the three functions you will need to call:
+To do this, these are the the functions you will need to call:
 
-| Function               | File         | Usage                                                         | Error         |
-| ---------------------- | ------------ | ------------------------------------------------------------- | ------------- |
-| `tokenize(text, line)` | tokenizer.py | Return an array of tokens for the given line text and number. | TokenError    |
-| `parse(tokens)`        | parser.py    | Return an statement tree for the given tokens.                | ParserError   |
-| `compile(statement)`   | compiler.py  | Recursively generate a HSC script from the statement tree.    | CompilerError |
+| Function                        | Module       | Usage                                                         | Error         |
+| ------------------------------- | ------------ | ------------------------------------------------------------- | ------------- |
+| `tokenize(text, line)`          | tokenizer    | Return an array of tokens for the given line text and number. | TokenError    |
+| `parse_serpent_script(tokens)`  | parser       | Return an statement tree for the given tokens.                | ParserError   |
+| `compile_hsc_script(statement)` | compiler     | Recursively generate a HSC script from the statement tree.    | CompilerError |

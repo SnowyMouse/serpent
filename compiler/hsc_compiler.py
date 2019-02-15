@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# compiler.py
+# compiler/hsc_compiler.py
 #
 # Copyright (c) 2019 Kavawuvi
 #
@@ -26,13 +26,7 @@ import sys
 
 from tokenizer import Token, TokenType
 from parser import Statement, StatementType
-
-class CompileError(Exception):
-    message = None
-    def __init__(self, message):
-        self.message = message
-    def __str__(self):
-        return "CompileError: {:s}".format(self.message)
+from .types import CompileError
 
 # Translate a statement tree or token into its HSC equivalent
 def compile_script(statement):
@@ -106,7 +100,7 @@ def compile_script(statement):
             compiled = "(if"
 
             if len(statement.children) != 2 and len(statement.children) != 3:
-                raise CompileException("invalid if statement")
+                raise CompileError("invalid if statement")
 
             # Condition
             compiled = compiled + " " + compile_script(statement.children[0])
@@ -133,4 +127,4 @@ def compile_script(statement):
             return compiled
 
         else:
-            raise CompileException("unimplemented")
+            raise CompileError("unimplemented")

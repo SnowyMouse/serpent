@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# tokenizer.py
+# tokenizer/tokenizer.py
 #
 # Copyright (c) 2019 Kavawuvi
 #
@@ -23,47 +23,9 @@
 # SOFTWARE.
 
 import sys
-from enum import Enum
 from error import warning, error, show_message_for_character
-
-# Errors that may occur
-class TokenError(Exception):
-    message = "An error occurred"
-    message_under = "This is where it occurred"
-    character = 1
-    def __init__(self, character, message, message_under):
-        self.character = character
-        self.message = message
-        self.message_under = message_under
-    def __str__(self):
-        return "TokenError: {:s}".format(self.message)
-
-# Types of tokens
-class TokenType(Enum):
-    OTHER = 0
-    STRING = OTHER + 1
-    INTEGER = STRING + 1
-    FLOAT_DECIMAL = INTEGER + 1
-    FLOAT = FLOAT_DECIMAL + 1
-    SYMBOL = FLOAT + 1
-    SYMBOL_OR_NUMBER = SYMBOL + 1
-
-# Token class
-class Token:
-    token = ""
-    token_type = TokenType.OTHER
-    line = None
-    character = 1
-    def __repr__(self):
-        return "<token=`" + self.token + "` type=" + str(self.token_type) + " at=" + str(self.line) + ":" + str(self.character) + ">"
-
-EQUALITY_OPERATORS = ["==", "!="]
-RELATIONAL_OPERATORS = [">=", "<=", ">", "<"]
-LOGICAL_OPERATORS = ["and", "or"]
-ARITHMETIC_SYMBOLS = ["+", "-", "*", "/"]
-ARITHMETIC_SYMBOLS.extend(EQUALITY_OPERATORS)
-ARITHMETIC_SYMBOLS.extend(RELATIONAL_OPERATORS)
-ARITHMETIC_SYMBOLS.extend(LOGICAL_OPERATORS)
+from .types import TokenError, TokenType, Token
+from .symbols import EQUALITY_OPERATORS, RELATIONAL_OPERATORS, LOGICAL_OPERATORS, ARITHMETIC_SYMBOLS
 
 # Function for when things mess up
 def invalid_token_message(c, character, message):

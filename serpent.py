@@ -32,14 +32,14 @@ import sys
 import argparse
 
 # Import serpent stuff
-from compiler import compile_script, CompileError
-from error import show_message_for_character, error
-from parser import parse, ParserError
 from tokenizer import tokenize, TokenError
+from compiler import compile_hsc_script, CompileError
+from error import show_message_for_character, error
+from parser import parse_serpent_script, ParserError
 
 # Entry point
 def serpent():
-    parser = argparse.ArgumentParser(description="Serpent version 1.4.0")
+    parser = argparse.ArgumentParser(description="Serpent version 2.0.0")
     parser.add_argument("input", help="Path to input script")
     parser.add_argument("output", help="Path to output script")
     args = parser.parse_args()
@@ -71,7 +71,7 @@ def serpent():
     # Parse it
     parsed = None
     try:
-        parsed = parse(tokens)
+        parsed = parse_serpent_script(tokens)
     except ParserError as e:
         error("An error occurred when parsing: {:s}".format(e.message))
         show_message_for_character(e.token.line, e.token.character, lines[e.token.line - 1], e.message_under)
@@ -80,7 +80,7 @@ def serpent():
     # Make it into a hsc thing
     compiled = None
     try:
-        compiled = compile_script(parsed)
+        compiled = compile_hsc_script(parsed)
     except CompileException as e:
         error("An error occurred when compiling: {:s}".format(e.message))
         return
