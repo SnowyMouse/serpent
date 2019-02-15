@@ -81,7 +81,7 @@ def serpent():
     compiled = None
     try:
         compiled = compile_hsc_script(parsed)
-    except CompileException as e:
+    except CompileError as e:
         error("An error occurred when compiling: {:s}".format(e.message))
         return
 
