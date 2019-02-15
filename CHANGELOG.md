@@ -5,7 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- Nothing yet
+### Changed
+- Reorganized the file structure. All functions for converting scripts are now stored in a submodule.
+- `compile()` is changed to `compile_hsc_script()`
+- `parse()` is changed to `parse_serpent_script()`
 
 ## [1.3.0] - 2019-02-14
 ### Added
