@@ -129,7 +129,12 @@ def parse_script(tokens, next_token):
     next_token = next_token + offset + 1
 
     # Go through each token until finished
+    objects = []
     exited_properly = False
+
+    script_block = Statement()
+    script_block.statement_type = StatementType.SCRIPT_BLOCK
+
     while next_token < len(tokens):
         token = tokens[next_token]
         if token.token == ")":
@@ -137,7 +142,7 @@ def parse_script(tokens, next_token):
             break
         else:
             expression = parse_expression(tokens, next_token)
-            statement.children.append(expression)
+            script_block.children.append(expression)
             next_token = next_token + expression.token_count
 
     # Make sure everything is all good
@@ -145,6 +150,8 @@ def parse_script(tokens, next_token):
         raise ParserError(tokens[next_token - 1], "Incomplete script definition", "Expected `)` after here")
 
     statement.token_count = next_token - first_token + 1
+    statement.children = [script_block]
+
 
     return statement
 
@@ -184,7 +191,7 @@ def parse_function_call(tokens, next_token):
             break
         else:
             expression = parse_expression(tokens, next_token)
-            statement.children.append(expression)
+            statement.children.append(expression.children[0])
             next_token = next_token + expression.token_count
 
     if not exited_properly:
@@ -196,5 +203,16 @@ def parse_function_call(tokens, next_token):
         statement.statement_type = StatementType.SCRIPT_BLOCK
     elif statement.function_name == "if":
         statement.statement_type = StatementType.IF_STATEMENT
+        num_children = len(statement.children)
+        if num_children < 2 or num_children > 3:
+            raise ParserError(tokens[first_token], "Invalid if statement", "If statement defined here")
+
+        for i in range(num_children - 1):
+            if statement.children[1 + i].statement_type != StatementType.SCRIPT_BLOCK:
+                block = Statement()
+                block.statement_type = StatementType.SCRIPT_BLOCK
+                block.children = [statement.children[1 + i]]
+                statement.children[1 + i] = block
+
 
     return statement
