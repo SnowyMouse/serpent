@@ -132,5 +132,6 @@ To do this, these are the the functions you will need to call:
 | Function                        | Module       | Usage                                                         | Error         |
 | ------------------------------- | ------------ | ------------------------------------------------------------- | ------------- |
 | `tokenize(text, line)`          | tokenizer    | Return an array of tokens for the given line text and number. | TokenError    |
-| `parse_serpent_script(tokens)`  | parser       | Return an statement tree for the given tokens.                | ParserError   |
+| `parse_serpent_script(tokens)`  | parser       | Return a statement tree for the tokenized serpent script.     | ParserError   |
 | `compile_hsc_script(statement)` | compiler     | Recursively generate a HSC script from the statement tree.    | CompilerError |
+| `parse_hsc_script(tokens)`      | parser       | Return a statement tree for the tokenized HSC script.         | ParserError   |
