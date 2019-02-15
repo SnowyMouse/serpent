@@ -90,13 +90,63 @@ def parse_global(tokens, next_token):
     statement.children = [expression]
     statement.token_count = 5 + expression.token_count
 
-    print(statement.token_count)
-
     return statement
 
 def parse_script(tokens, next_token):
+    if next_token + 6 > len(tokens):
+        raise ParserError(tokens[next_token], "Incomplete script definition", "Script defined here")
+
     statement = Statement()
-    return None # TODO
+    statement.statement_type = StatementType.SCRIPT_DEFINITION
+    first_token = next_token
+
+    # Script type
+    script_type = tokens[next_token + 2]
+    if script_type.token not in SCRIPT_TYPES:
+        raise ParserError(script_type, "Invalid script type {:s}".format(script_type.token), "Script type defined here")
+    statement.script_type = script_type.token
+
+    # Return type
+    requires_type = script_type.token == "stub" or script_type.token == "static"
+
+    if requires_type:
+        if next_token + 7 > len(tokens):
+            raise ParserError(tokens[next_token], "Incomplete script definition", "Script defined here")
+
+        script_return_type = tokens[next_token + 3]
+        if script_return_type.token not in VALUE_TYPES:
+            raise ParserError(script_type, "Invalid script return type {:s}".format(script_return_type.token), "Script return type defined here")
+        statement.script_return_type = script_return_type.token
+
+    # Offset by 1 if a type is specified
+    offset = 4 if requires_type else 3
+
+    script_name = tokens[next_token + offset]
+    if script_name.token_type != TokenType.OTHER:
+        raise ParserError(global_name, "Invalid script name {:s}".format(script_name.token), "Script name defined here")
+    statement.script_name = script_name.token
+
+    next_token = next_token + offset + 1
+
+    # Go through each token until finished
+    exited_properly = False
+    while next_token < len(tokens):
+        token = tokens[next_token]
+        if token.token == ")":
+            exited_properly = True
+            break
+        else:
+            expression = parse_expression(tokens, next_token)
+            statement.children.append(expression)
+            next_token = next_token + expression.token_count
+
+    # Make sure everything is all good
+    if not exited_properly:
+        raise ParserError(tokens[next_token - 1], "Incomplete script definition", "Expected `)` after here")
+
+    statement.token_count = next_token - first_token + 1
+
+    return statement
 
 
 def parse_expression(tokens, next_token):
@@ -138,7 +188,13 @@ def parse_function_call(tokens, next_token):
             next_token = next_token + expression.token_count
 
     if not exited_properly:
-        raise ParserError(tokens[first_token], "Incomplete function call", "Function used here")
+        raise ParserError(tokens[next_token - 1], "Incomplete function call", "Expected `)` after here")
 
     statement.token_count = next_token - first_token + 1
+
+    if statement.function_name == "begin":
+        statement.statement_type = StatementType.SCRIPT_BLOCK
+    elif statement.function_name == "if":
+        statement.statement_type = StatementType.IF_STATEMENT
+
     return statement
