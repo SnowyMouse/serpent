@@ -29,6 +29,7 @@
 # SOFTWARE.
 
 import sys
+import argparse
 
 # Import serpent stuff
 from compiler import compile_script, CompileError
@@ -37,12 +38,11 @@ from parser import parse, ParserError
 from tokenizer import tokenize, TokenError
 
 # Entry point
-def serpent(args):
-    # Make sure we have the right number of arguments
-    if len(args) != 3:
-        print("Serpent version 1.4.0 by Kavawuvi", file=sys.stderr)
-        print(args[0] + " <input-script> <output-script>", file=sys.stderr)
-        return
+def serpent():
+    parser = argparse.ArgumentParser(description="Serpent version 1.4.0")
+    parser.add_argument("input", help="Path to input script")
+    parser.add_argument("output", help="Path to output script")
+    args = parser.parse_args()
 
     # Get the tokens
     tokens = []
@@ -50,7 +50,7 @@ def serpent(args):
 
     # Open the thing
     try:
-        with open(args[1], "r") as f:
+        with open(args.input, "r") as f:
             line = 0
             text = f.readline()
             while text != "":
@@ -86,9 +86,9 @@ def serpent(args):
         return
 
     # Save
-    with open(args[2],"w+") as f:
+    with open(args.output,"w+") as f:
         f.write(compiled + "\n")
 
 # Entry point
 if __name__ == "__main__":
-    serpent(sys.argv)
+    serpent()
