@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- HSC scripts can now be parsed
+
 ### Changed
 - Reorganized the file structure. All functions for converting scripts are now stored in a submodule.
 - `compile()` is changed to `compile_hsc_script()`
