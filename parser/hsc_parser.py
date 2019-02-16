@@ -213,7 +213,7 @@ def parse_function_call(tokens, next_token):
                 block.statement_type = StatementType.SCRIPT_BLOCK
                 block.children = [statement.children[1 + i]]
                 statement.children[1 + i] = block
-    elif statement.function_name in ARITHMETIC_SYMBOLS or statement.function_name == "=" and len(statement.children) != 2:
+    elif (statement.function_name in ARITHMETIC_SYMBOLS or statement.function_name == "=") and len(statement.children) != 2:
         raise ParserError(tokens[first_token], "Invalid arithmetic function", "Expected exactly two parameters here")
 
 
