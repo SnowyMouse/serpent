@@ -13,15 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Changed the behavior of removing the quotation marks from strings so that only alphanumeric strings (with or without
 underscores) have their quotation marks removed rather than strings with spaces.
-
-### Fixed
-- Empty strings are now properly handled
-
-### Changed
 - Reorganized the file structure. All functions for converting scripts are now stored in a submodule.
 - `compile()` is changed to `compile_hsc_script()`
 - `parse()` is changed to `parse_serpent_script()`
 - Python's `argparse` is used for parsing arguments now
+
+### Fixed
+- Empty strings are now properly handled
 
 ## [1.3.0] - 2019-02-14
 ### Added
