@@ -23,6 +23,7 @@
 # SOFTWARE.
 
 import sys
+from enum import Enum
 from copy import copy
 from error import warning, error, show_message_for_character
 from tokenizer import Token, TokenType, ARITHMETIC_SYMBOLS, EQUALITY_OPERATORS, RELATIONAL_OPERATORS, LOGICAL_OPERATORS
