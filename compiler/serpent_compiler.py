@@ -68,7 +68,7 @@ def compile_script(statement, beautify = False, level = 0):
         elif type == StatementType.SCRIPT_BLOCK:
             for c in statement.children:
                 compiled = compiled + newline + generate_spaces(level + 1) + compile_script(c, beautify, level + 1)
-            return compiled + generate_spaces(level)
+            return compiled
 
         # Function call
         elif type == StatementType.FUNCTION_CALL:
