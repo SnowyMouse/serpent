@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - HSC scripts can now be converted into serpent scripts (`parse_hsc_script()` and `compile_serpent_script()`)
 
 ### Changed
-- Strings with backslashes are now put in quotations even if they do not have spaces
+- Changed the behavior of removing the quotation marks from strings so that only alphanumeric strings have their quotation marks removed rather than strings with spaces.
 
 ### Fixed
 - Empty strings are now properly handled
