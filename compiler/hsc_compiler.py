@@ -32,7 +32,7 @@ from .types import CompileError
 # (beautify and level do not do anything yet)
 def compile_script(statement, beautify = False, level = 0):
     if isinstance(statement, Token):
-        if statement.token_type == TokenType.STRING and " " not in statement.token:
+        if statement.token_type == TokenType.STRING and " " not in statement.token and "\\" not in statement.token and len(statement.token) > 2:
             return statement.token[1:-1]
         else:
             return statement.token
