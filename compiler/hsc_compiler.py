@@ -31,7 +31,16 @@ from .types import CompileError, do_generate_spaces, dont_generate_spaces
 # Translate a statement tree or token into its HSC equivalent
 def compile_script(statement, strip = False, level = 0):
     if isinstance(statement, Token):
-        if statement.token_type == TokenType.STRING and statement.token[1:-1].isalnum() and strip:
+        quotes_can_be_removed = False
+
+        if strip and statement.token_type == TokenType.STRING and len(statement.token[1:-1]) > 0:
+            quotes_can_be_removed = True
+            for c in statement.token[1:-1]:
+                if not c.isalnum() and c != "_":
+                    quotes_can_be_removed = False
+                    break
+
+        if quotes_can_be_removed:
             return statement.token[1:-1]
         else:
             return statement.token

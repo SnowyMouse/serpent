@@ -11,7 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `--strip` to make stripping of unnecessary characters optional
 
 ### Changed
-- Changed the behavior of removing the quotation marks from strings so that only alphanumeric strings have their quotation marks removed rather than strings with spaces.
+- Changed the behavior of removing the quotation marks from strings so that only alphanumeric strings (with or without
+underscores) have their quotation marks removed rather than strings with spaces.
 
 ### Fixed
 - Empty strings are now properly handled
@@ -37,8 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.0] - 2019-02-13
 ### Changed
-- Empty globals will now throw an error. They were never compatible with Sapien, and there is no good way to support them that I can think
-of.
+- Empty globals will now throw an error. They were never compatible with Sapien, and there is no good way to support
+them that I can think of.
 
 ## [1.0.0] - 2019-02-13
 ### Added
