@@ -29,20 +29,26 @@
 # SOFTWARE.
 
 import sys
+import argparse
 
 # Import serpent stuff
-from compiler import compile_script, CompileError
-from error import show_message_for_character, error
-from parser import parse, ParserError
 from tokenizer import tokenize, TokenError
+from compiler import compile_hsc_script, compile_serpent_script, CompileError
+from error import show_message_for_character, error
+from parser import parse_serpent_script, parse_hsc_script, ParserError
 
 # Entry point
-def serpent(args):
-    # Make sure we have the right number of arguments
-    if len(args) != 3:
-        print("Serpent version 1.3.0 by Kavawuvi (2019-02-13)", file=sys.stderr)
-        print(args[0] + " <input-script> <output-script>", file=sys.stderr)
-        return
+def serpent():
+    parser = argparse.ArgumentParser(description="Serpent version 2.0.0")
+    parser.add_argument("--reverse", const=True, default=False, dest="reverse", action="store_const", help="Convert a Halo script to serpent")
+    parser.add_argument("--strip", const=True, default=False, dest="strip", action="store_const", help="Strip unnecessary characters")
+    parser.add_argument("input", help="Path to input script")
+    parser.add_argument("output", help="Path to output script")
+    args = parser.parse_args()
+
+    parser = parse_hsc_script if args.reverse else parse_serpent_script
+    compiler = compile_serpent_script if args.reverse else compile_hsc_script
+    strip = args.strip
 
     # Get the tokens
     tokens = []
@@ -50,7 +56,7 @@ def serpent(args):
 
     # Open the thing
     try:
-        with open(args[1], "r") as f:
+        with open(args.input, "r") as f:
             line = 0
             text = f.readline()
             while text != "":
@@ -71,7 +77,7 @@ def serpent(args):
     # Parse it
     parsed = None
     try:
-        parsed = parse(tokens)
+        parsed = parser(tokens)
     except ParserError as e:
         error("An error occurred when parsing: {:s}".format(e.message))
         show_message_for_character(e.token.line, e.token.character, lines[e.token.line - 1], e.message_under)
@@ -80,15 +86,15 @@ def serpent(args):
     # Make it into a hsc thing
     compiled = None
     try:
-        compiled = compile_script(parsed)
-    except CompileException as e:
+        compiled = compiler(parsed, strip)
+    except CompileError as e:
         error("An error occurred when compiling: {:s}".format(e.message))
         return
 
     # Save
-    with open(args[2],"w+") as f:
-        f.write(compiled + "\n")
+    with open(args.output,"w+") as f:
+        f.write(compiled)
 
 # Entry point
 if __name__ == "__main__":
-    serpent(sys.argv)
+    serpent()

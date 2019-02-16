@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# parser.py
+# parser/serpent_parser.py
 #
 # Copyright (c) 2019 Kavawuvi
 #
@@ -23,110 +23,11 @@
 # SOFTWARE.
 
 import sys
+from enum import Enum
 from copy import copy
 from error import warning, error, show_message_for_character
-from enum import Enum
 from tokenizer import Token, TokenType, ARITHMETIC_SYMBOLS, EQUALITY_OPERATORS, RELATIONAL_OPERATORS, LOGICAL_OPERATORS
-
-# Statement types
-class StatementType(Enum):
-    MAIN_SCRIPT_BLOCK  = 0
-    GLOBAL_DEFINITION  = 1
-    SCRIPT_DEFINITION  = 2
-    SCRIPT_BLOCK       = 3
-    IF_STATEMENT       = 4
-    EXPRESSION         = 5
-    FUNCTION_CALL      = 6
-
-# Parser error
-class ParserError(Exception):
-    token = None
-    message = "An error occurred"
-    message_under = "This is where it occurred"
-    def __init__(self, token, message, message_under):
-        self.token = token
-        self.message = message
-        self.message_under = message_under
-    def __str__(self):
-        return "ParserError: {:s}".format(self.message)
-
-SCRIPT_TYPES = [
-    "static",
-    "dormant",
-    "continuous",
-    "stub",
-    "startup"
-]
-
-VALUE_TYPES = [
-    "void",
-    "short",
-    "long",
-    "real",
-    "boolean",
-    "string",
-    "trigger_volume",
-    "cutscene_flag",
-    "cutscene_camera_point",
-    "cutscene_title",
-    "cutscene_recording",
-    "device_group",
-    "ai",
-    "ai_command_list",
-    "starting_profile",
-    "conversation",
-    "navpoint",
-    "hud_message",
-    "object_list",
-    "sound",
-    "effect",
-    "damage",
-    "looping_sound",
-    "animation_graph",
-    "actor_variant",
-    "damage_effect",
-    "object_definition",
-    "game_difficulty",
-    "team",
-    "ai_default_state",
-    "actor_type",
-    "hud_corner",
-    "object",
-    "unit",
-    "vehicle",
-    "weapon",
-    "device",
-    "scenery",
-    "object_name",
-    "unit_name",
-    "vehicle_name",
-    "weapon_name",
-    "device_name",
-    "scenery_name"
-]
-
-# Statement
-class Statement:
-    statement_type = None
-    children = None
-
-    # Number of tokens that was consumed for this
-    token_count = None
-
-    # If global
-    global_type = None
-    global_name = None
-
-    # If function call
-    function_name = None
-
-    # If script
-    script_name = None
-    script_type = None
-    script_return_type = None
-
-    def __init__(self):
-        self.children = []
+from .types import StatementType, ParserError, SCRIPT_TYPES, VALUE_TYPES, Statement
 
 # Parse the main script block
 def parse(tokens):
@@ -179,7 +80,7 @@ def parse_global(tokens, next_token):
 
     # Also make sure it's a valid global name
     if global_name.token_type != TokenType.OTHER:
-        raise ParserError(tokens[next_token + 2], "Invalid global name {:s}".format(global_name.token), "Global name defined here")
+        raise ParserError(global_name, "Invalid global name {:s}".format(global_name.token), "Global name defined here")
     else:
         statement.global_name = global_name.token
 
@@ -499,7 +400,7 @@ def parse_expression(tokens, next_token, parenthesis = False, in_function = Fals
                 last_token = last_token + new_statement.token_count
                 parts.append(new_statement)
                 last_type = LastType.NON_SYMBOL
-                
+
                 continue
 
             # Maybe the expression is being cut too short by an end?

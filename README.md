@@ -1,10 +1,23 @@
-# serpent 1.3.0
+# serpent 2.0.0
 Halo Script without the LISP
 
 Requires Python 3 and the Halo Editing Kit.
 
 ## Usage
-`serpent.py <serpent-script-file-path> <output-script-file-path>`
+`serpent.py [-h] [--reverse] [--strip] <input> <output>`
+
+`<input>` is the input script. `<output>` is the output script. By default, serpent converts serpent
+scripts into HSC scripts. Using `--reverse` converts HSC scripts into serpent scripts, and `--strip`
+removes whitespace characters from the output that are not necessary for the script to work.
+
+## Files
+| File         | Purpose                                 |
+| ------------ | --------------------------------------- |
+| compiler.py  | Compile parsed scripts into HSC scripts |
+| error.py     | Error handling (command-line)           |
+| parser.py    | Parsing HSC scripts                     |
+| serpent.py   | serpent program (command-line)          |
+| tokenizer.py | Convert scripts into tokens             |
 
 ## Example script
 ```
@@ -118,10 +131,18 @@ If you want to use serpent, it is recommended that you do not implement the serp
 used as a standalone command-line program. Instead, you should call the functions that serpent.py calls, as this will
 allow you to do error handling.
 
-To do this, these are the the three functions you will need to call:
+To do this, these are the the functions you will need to call to convert serpent scripts into HSC scripts:
 
-| Function               | File         | Usage                                                         | Error         |
-| ---------------------- | ------------ | ------------------------------------------------------------- | ------------- |
-| `tokenize(text, line)` | tokenizer.py | Return an array of tokens for the given line text and number. | TokenError    |
-| `parse(tokens)`        | parser.py    | Return an statement tree for the given tokens.                | ParserError   |
-| `compile(statement)`   | compiler.py  | Recursively generate a HSC script from the statement tree.    | CompilerError |
+| Function                                   | Module       | Usage                                                          | Error         |
+| ------------------------------------------ | ------------ | -------------------------------------------------------------- | ------------- |
+| `tokenize(text, line)`                     | tokenizer    | Return an array of tokens for the given line text and number.  | TokenError    |
+| `parse_serpent_script(tokens)`             | parser       | Return a statement tree for the tokenized serpent script.      | ParserError   |
+| `compile_hsc_script(statement, strip)`     | compiler     | Recursively generate a HSC script from the statement tree.     | CompilerError |
+
+For converting HSC scripts into sapien scripts, these are the functions needed:
+
+| Function                                   | Module       |                                                                | Error         |
+| ------------------------------------------ | ------------ | -------------------------------------------------------------- | ------------- |
+| `tokenize(text, line)`                     | tokenizer    | *(See above)*                                                  | TokenError    |
+| `parse_hsc_script(tokens)`                 | parser       | Return a statement tree for the tokenized HSC script.          | ParserError   |
+| `compile_serpent_script(statement, strip)` | compiler     | Recursively generate a serpent script from the statement tree. | CompilerError |
