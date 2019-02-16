@@ -28,3 +28,10 @@ class CompileError(Exception):
         self.message = message
     def __str__(self):
         return "CompileError: {:s}".format(self.message)
+
+def dont_generate_spaces(level):
+    return ""
+
+def do_generate_spaces(level):
+    spaces = " " * level * 4
+    return spaces

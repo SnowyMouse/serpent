@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - HSC scripts can now be parsed
 - HSC scripts can now be converted into serpent scripts (`parse_hsc_script()` and `compile_serpent_script()`)
+- Added `--strip` to make stripping of unnecessary characters optional
 
 ### Changed
 - Changed the behavior of removing the quotation marks from strings so that only alphanumeric strings have their quotation marks removed rather than strings with spaces.

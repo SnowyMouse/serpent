@@ -26,7 +26,7 @@ import sys
 
 from tokenizer import Token, TokenType, ARITHMETIC_SYMBOLS
 from parser import Statement, StatementType
-from .types import CompileError
+from .types import CompileError, do_generate_spaces, dont_generate_spaces
 
 # Translate a statement tree or token into its serpent equivalent
 def compile_script(statement, strip = False, level = 0):
@@ -107,12 +107,3 @@ def compile_script(statement, strip = False, level = 0):
 
         else:
             raise CompileError("{:s} is unimplemented".format(type))
-
-def dont_generate_spaces(level):
-    return ""
-
-def do_generate_spaces(level):
-    spaces = ""
-    for i in range(level):
-        spaces = spaces + "    "
-    return spaces

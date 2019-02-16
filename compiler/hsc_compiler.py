@@ -26,10 +26,9 @@ import sys
 
 from tokenizer import Token, TokenType
 from parser import Statement, StatementType
-from .types import CompileError
+from .types import CompileError, do_generate_spaces, dont_generate_spaces
 
 # Translate a statement tree or token into its HSC equivalent
-# (beautify and level do not do anything yet)
 def compile_script(statement, strip = False, level = 0):
     if isinstance(statement, Token):
         if statement.token_type == TokenType.STRING and statement.token[1:-1].isalnum() and strip:
@@ -39,18 +38,21 @@ def compile_script(statement, strip = False, level = 0):
     else:
         type = statement.statement_type
 
+        newline = "" if strip else "\n"
+        generate_spaces = dont_generate_spaces if strip else do_generate_spaces
+
         # Main script block
         if type == StatementType.MAIN_SCRIPT_BLOCK:
             compiled = ""
             for child in statement.children:
-                compiled = compiled + compile_script(child)
+                compiled = compiled + compile_script(child, strip, level) + newline
             return compiled
 
         # Global
         elif type == StatementType.GLOBAL_DEFINITION:
             compiled = "(global {:s} {:s}".format(statement.global_type, statement.global_name)
             if len(statement.children) == 1:
-                compiled = compiled + " " + compile_script(statement.children[0])
+                compiled = compiled + " " + compile_script(statement.children[0], strip, level)
             compiled = compiled + ")"
             return compiled
 
@@ -58,16 +60,16 @@ def compile_script(statement, strip = False, level = 0):
         elif type == StatementType.EXPRESSION:
             if len(statement.children) != 1:
                 raise CompileError("invalid expression")
-            return compile_script(statement.children[0])
+            return compile_script(statement.children[0], strip, level)
 
         # Function call
         elif type == StatementType.FUNCTION_CALL:
             compiled = "({:s}".format(statement.function_name)
             for child in statement.children:
                 # Add an extra space IF needed
-                if compiled[-1] != ")":
+                if compiled[-1] != ")" or not strip:
                     compiled = compiled + " "
-                compiled = compiled + compile_script(child)
+                compiled = compiled + compile_script(child, strip, level)
             compiled = compiled + ")"
             return compiled
 
@@ -83,9 +85,9 @@ def compile_script(statement, strip = False, level = 0):
                 compiled = compiled + " (+ 0 0)"
             else:
                 for child in statement.children:
-                    compiled = compiled + " " + compile_script(child)
+                    compiled = compiled + " " + compile_script(child, strip, level)
 
-            compiled = compiled + ")"
+            compiled = compiled + (newline if len(statement.children) > 0 else "") + ")"
             return compiled
 
         # Script blocks
@@ -95,7 +97,7 @@ def compile_script(statement, strip = False, level = 0):
                 compiled = "(+ 0 0)"
             else:
                 for child in statement.children:
-                    compiled = compiled + compile_script(child)
+                    compiled = compiled + newline + generate_spaces(level + 1) + compile_script(child, strip, level + 1)
             return compiled
 
         # If statement
@@ -106,26 +108,26 @@ def compile_script(statement, strip = False, level = 0):
                 raise CompileError("invalid if statement")
 
             # Condition
-            compiled = compiled + " " + compile_script(statement.children[0])
+            compiled = compiled + " " + compile_script(statement.children[0], strip, level)
 
             # Add an extra space IF needed
-            if compiled[-1] != ")":
+            if compiled[-1] != ")" or not strip:
                 compiled = compiled + " "
 
             # if is true
             if len(statement.children[1].children) <= 1 or (isinstance(statement.children[1], Statement) and statement.children[1].statement_type == StatementType.IF_STATEMENT):
-                compiled = compiled + compile_script(statement.children[1])
+                compiled = compiled + compile_script(statement.children[1], strip, level)
             else:
-                compiled = compiled + "(begin " + compile_script(statement.children[1]) + ")"
+                compiled = compiled + "(begin " + compile_script(statement.children[1], strip, level) + ")"
 
             # else
             if(len(statement.children) == 3):
                 if len(statement.children[2].children) <= 1 or (isinstance(statement.children[2], Statement) and statement.children[2].statement_type == StatementType.IF_STATEMENT):
-                    compiled = compiled + compile_script(statement.children[2])
+                    compiled = compiled + compile_script(statement.children[2], strip, level)
                 else:
-                    compiled = compiled + "(begin " + compile_script(statement.children[2]) + ")"
+                    compiled = compiled + "(begin " + compile_script(statement.children[2], strip, level) + ")"
 
-            compiled = compiled + ")"
+            compiled = compiled + newline + generate_spaces(level) + ")"
 
             return compiled
 

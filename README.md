@@ -133,16 +133,16 @@ allow you to do error handling.
 
 To do this, these are the the functions you will need to call to convert serpent scripts into HSC scripts:
 
-| Function                            | Module       | Usage                                                          | Error         |
-| ----------------------------------- | ------------ | -------------------------------------------------------------- | ------------- |
-| `tokenize(text, line)`              | tokenizer    | Return an array of tokens for the given line text and number.  | TokenError    |
-| `parse_serpent_script(tokens)`      | parser       | Return a statement tree for the tokenized serpent script.      | ParserError   |
-| `compile_hsc_script(statement)`     | compiler     | Recursively generate a HSC script from the statement tree.     | CompilerError |
+| Function                                   | Module       | Usage                                                          | Error         |
+| ------------------------------------------ | ------------ | -------------------------------------------------------------- | ------------- |
+| `tokenize(text, line)`                     | tokenizer    | Return an array of tokens for the given line text and number.  | TokenError    |
+| `parse_serpent_script(tokens)`             | parser       | Return a statement tree for the tokenized serpent script.      | ParserError   |
+| `compile_hsc_script(statement, strip)`     | compiler     | Recursively generate a HSC script from the statement tree.     | CompilerError |
 
 For converting HSC scripts into sapien scripts, these are the functions needed:
 
-| Function                            | Module       |                                                                | Error         |
-| ----------------------------------- | ------------ | -------------------------------------------------------------- | ------------- |
-| `tokenize(text, line)`              | tokenizer    | *(See above)*                                                  | TokenError    |
-| `parse_hsc_script(tokens)`          | parser       | Return a statement tree for the tokenized HSC script.          | ParserError   |
-| `compile_serpent_script(statement)` | compiler     | Recursively generate a serpent script from the statement tree. | CompilerError |
+| Function                                   | Module       |                                                                | Error         |
+| ------------------------------------------ | ------------ | -------------------------------------------------------------- | ------------- |
+| `tokenize(text, line)`                     | tokenizer    | *(See above)*                                                  | TokenError    |
+| `parse_hsc_script(tokens)`                 | parser       | Return a statement tree for the tokenized HSC script.          | ParserError   |
+| `compile_serpent_script(statement, strip)` | compiler     | Recursively generate a serpent script from the statement tree. | CompilerError |
