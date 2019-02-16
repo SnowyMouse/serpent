@@ -150,6 +150,10 @@ def parse_script(tokens, next_token):
         raise ParserError(tokens[next_token - 1], "Incomplete script definition", "Expected `)` after here")
 
     statement.token_count = next_token - first_token + 1
+
+    if len(script_block.children) == 1 and script_block.children[0].statement_type == StatementType.EXPRESSION and script_block.children[0].children[0].statement_type == StatementType.SCRIPT_BLOCK:
+        script_block = script_block.children[0].children[0]
+
     statement.children = [script_block]
 
 

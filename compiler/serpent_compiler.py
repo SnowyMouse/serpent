@@ -61,13 +61,13 @@ def compile_script(statement, beautify = False, level = 0):
             compiled = statement.script_type + " ";
             if statement.script_type == "stub" or statement.script_type == "static":
                 compiled = compiled + statement.script_return_type + " "
-            compiled = compiled + statement.script_name + compile_script(statement.children[0], beautify, level) + newline + "end"
+            compiled = compiled + statement.script_name + compile_script(statement.children[0], beautify, level + 1) + newline + "end"
             return compiled
 
         # Script block
         elif type == StatementType.SCRIPT_BLOCK:
             for c in statement.children:
-                compiled = compiled + newline + generate_spaces(level + 1) + compile_script(c, beautify, level + 1)
+                compiled = compiled + newline + generate_spaces(level) + compile_script(c, beautify, level)
             return compiled
 
         # Function call
@@ -96,9 +96,9 @@ def compile_script(statement, beautify = False, level = 0):
             compiled = "if " + compile_script(statement.children[0], beautify, level)
 
             if len(statement.children) <= 3 and len(statement.children) > 1:
-                compiled = compiled + compile_script(statement.children[1], beautify, level) + newline
+                compiled = compiled + compile_script(statement.children[1], beautify, level + 1) + newline
                 if len(statement.children) == 3:
-                    compiled = compiled + generate_spaces(level) + "else" + compile_script(statement.children[2], beautify, level) + newline
+                    compiled = compiled + generate_spaces(level) + "else" + compile_script(statement.children[2], beautify, level + 1) + newline
             else:
                 raise CompileError("invalid if statement")
 
