@@ -31,7 +31,7 @@ from .types import CompileError
 # Translate a statement tree or token into its serpent equivalent
 def compile_script(statement, level = 0):
     if isinstance(statement, Token):
-        return str(statement.token)
+        return statement.token
     else:
         compiled = ""
         type = statement.statement_type
@@ -45,25 +45,25 @@ def compile_script(statement, level = 0):
 
         # Global definition
         elif type == StatementType.GLOBAL_DEFINITION:
-            return "global {:s} {:s} = {:s}".format(statement.global_type, statement.global_name, compile_script(statement.children[0]))
+            return "global {:s} {:s} = {:s}".format(statement.global_type, statement.global_name, compile_script(statement.children[0], level))
 
         # Expression
         elif type == StatementType.EXPRESSION:
-            return compile_script(statement.children[0])
+            return compile_script(statement.children[0], level)
 
         # Script definition
         elif type == StatementType.SCRIPT_DEFINITION:
             compiled = statement.script_type + " ";
             if statement.script_type == "stub" or statement.script_type == "static":
                 compiled = compiled + statement.script_return_type + " "
-            compiled = compiled + statement.script_name + compile_script(statement.children[0], level)
+            compiled = compiled + statement.script_name + compile_script(statement.children[0], level) + "\nend"
             return compiled
 
         # Script block
         elif type == StatementType.SCRIPT_BLOCK:
             for c in statement.children:
                 compiled = compiled + "\n" + generate_spaces(level + 1) + compile_script(c, level + 1)
-            return compiled + generate_spaces(level) + "end"
+            return compiled + generate_spaces(level)
 
         # Function call
         elif type == StatementType.FUNCTION_CALL:
@@ -88,7 +88,14 @@ def compile_script(statement, level = 0):
         elif type == StatementType.IF_STATEMENT:
             compiled = "if " + compile_script(statement.children[0], level)
 
-            return "\n"
+            if len(statement.children) <= 3 and len(statement.children) > 1:
+                compiled = compiled + compile_script(statement.children[1], level) + "\n"
+                if len(statement.children) == 3:
+                    compiled = compiled + generate_spaces(level) + "else" + compile_script(statement.children[2], level) + "\n"
+            else:
+                raise CompileError("invalid if statement")
+
+            return compiled + generate_spaces(level) + "end"
 
 
         else:
