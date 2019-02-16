@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - HSC scripts can now be parsed
+- HSC scripts can now be converted into serpent scripts (`parse_hsc_script()` and `compile_serpent_script()`)
 
 ### Changed
 - Reorganized the file structure. All functions for converting scripts are now stored in a submodule.
