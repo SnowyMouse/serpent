@@ -71,6 +71,11 @@ def compile_script(statement, level = 0):
                 return "{:s} = {:s}".format(compile_script(statement.children[0], level), compile_script(statement.children[1], level))
             elif statement.function_name == "not":
                 return "!{:s}".format(compile_script(statement.children[0], level))
+            elif statement.function_name == "=" or statement.function_name in ARITHMETIC_SYMBOLS:
+                function_name = statement.function_name
+                if function_name == "=":
+                    function_name = "=="
+                return "({:s} {:s} {:s})".format(compile_script(statement.children[0], level), function_name, compile_script(statement.children[1], level))
 
             compiled = statement.function_name + "("
             for c in range(len(statement.children)):
