@@ -41,13 +41,14 @@ from parser import parse_serpent_script, parse_hsc_script, ParserError
 def serpent():
     parser = argparse.ArgumentParser(description="Serpent version 2.0.0")
     parser.add_argument("--reverse", const=True, default=False, dest="reverse", action="store_const", help="Convert a Halo script to serpent")
+    parser.add_argument("--strip", const=True, default=False, dest="strip", action="store_const", help="Strip unnecessary characters")
     parser.add_argument("input", help="Path to input script")
     parser.add_argument("output", help="Path to output script")
     args = parser.parse_args()
 
     parser = parse_hsc_script if args.reverse else parse_serpent_script
     compiler = compile_serpent_script if args.reverse else compile_hsc_script
-    beautify = args.reverse
+    strip = args.strip
 
     # Get the tokens
     tokens = []
@@ -85,7 +86,7 @@ def serpent():
     # Make it into a hsc thing
     compiled = None
     try:
-        compiled = compiler(parsed, beautify)
+        compiled = compiler(parsed, strip)
     except CompileError as e:
         error("An error occurred when compiling: {:s}".format(e.message))
         return

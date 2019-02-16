@@ -30,9 +30,9 @@ from .types import CompileError
 
 # Translate a statement tree or token into its HSC equivalent
 # (beautify and level do not do anything yet)
-def compile_script(statement, beautify = False, level = 0):
+def compile_script(statement, strip = False, level = 0):
     if isinstance(statement, Token):
-        if statement.token_type == TokenType.STRING and statement.token[1:-1].isalnum():
+        if statement.token_type == TokenType.STRING and statement.token[1:-1].isalnum() and strip:
             return statement.token[1:-1]
         else:
             return statement.token

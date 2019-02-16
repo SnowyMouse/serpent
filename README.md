@@ -4,10 +4,11 @@ Halo Script without the LISP
 Requires Python 3 and the Halo Editing Kit.
 
 ## Usage
-`serpent.py [-h] [--reverse] <input> <output>`
+`serpent.py [-h] [--reverse] [--strip] <input> <output>`
 
 `<input>` is the input script. `<output>` is the output script. By default, serpent converts serpent
-scripts into HSC scripts. Using `--reverse` converts HSC scripts into serpent scripts.
+scripts into HSC scripts. Using `--reverse` converts HSC scripts into serpent scripts, and `--strip`
+removes whitespace characters from the output that are not necessary for the script to work.
 
 ## Files
 | File         | Purpose                                 |
