@@ -23,4 +23,5 @@
 # SOFTWARE.
 
 from .hsc_compiler import compile_script as compile_hsc_script
+from .serpent_compiler import compile_script as compile_serpent_script
 from .types import CompileError
