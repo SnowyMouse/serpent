@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - HSC scripts can now be converted into serpent scripts (`parse_hsc_script()` and `compile_serpent_script()`)
 
 ### Changed
+- Strings with backslashes are now put in quotations even if they do not have spaces
+
+### Fixed
+- Empty strings are now properly handled
+
+### Changed
 - Reorganized the file structure. All functions for converting scripts are now stored in a submodule.
 - `compile()` is changed to `compile_hsc_script()`
 - `parse()` is changed to `parse_serpent_script()`
