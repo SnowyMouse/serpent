@@ -29,7 +29,8 @@ from parser import Statement, StatementType
 from .types import CompileError
 
 # Translate a statement tree or token into its HSC equivalent
-def compile_script(statement):
+# (beautify and level do not do anything yet)
+def compile_script(statement, beautify = False, level = 0):
     if isinstance(statement, Token):
         if statement.token_type == TokenType.STRING and " " not in statement.token:
             return statement.token[1:-1]

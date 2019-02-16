@@ -47,6 +47,7 @@ def serpent():
 
     parser = parse_hsc_script if args.reverse else parse_serpent_script
     compiler = compile_serpent_script if args.reverse else compile_hsc_script
+    beautify = args.reverse
 
     # Get the tokens
     tokens = []
@@ -84,7 +85,7 @@ def serpent():
     # Make it into a hsc thing
     compiled = None
     try:
-        compiled = compiler(parsed)
+        compiled = compiler(parsed, beautify)
     except CompileError as e:
         error("An error occurred when compiling: {:s}".format(e.message))
         return
