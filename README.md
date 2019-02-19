@@ -94,17 +94,17 @@ recursion.
 ### Logical operators
 There are several different operators which can be used for logic.
 
-| Operator  | Result                                  |
-| --------- | --------------------------------------- |
-| `a == b`  | true if a and b are equal               |
-| `a != b`  | true if a and b are not equal           |
-| `a < b`   | true if a is less than b                |
-| `a > b`   | true if a is greater than b             |
-| `a <= b`  | true if a is less than or equal to b    |
-| `a >= b`  | true if a is greater than or equal to b |
-| `a and b` | true if a and b are true                |
-| `a or b`  | true if a or b are true                 |
-| `!a`      | true if a is not true                   |
+| Operator  | Result                                  | Halo Function |
+| --------- | --------------------------------------- | ------------- |
+| `a == b`  | true if a and b are equal               | `=`           |
+| `a != b`  | true if a and b are not equal           | `!=`          |
+| `a < b`   | true if a is less than b                | `<`           |
+| `a > b`   | true if a is greater than b             | `>`           |
+| `a <= b`  | true if a is less than or equal to b    | `<=`          |
+| `a >= b`  | true if a is greater than or equal to b | `>=`          |
+| `a and b` | true if a and b are true                | `and`         |
+| `a or b`  | true if a or b are true                 | `or`          |
+| `!a`      | true if a is not true                   | `not`         |
 
 #### Order of operations
 Halo's LISP does not have any concept of order of operations, as each operation is evaluated first-to-last. Operations
