@@ -17,15 +17,6 @@ converting from HSC scripts.
 `--strip` removes whitespace characters from the output that are not necessary for the script to work. This is on by
 default when converting to HSC scripts.
 
-## Files
-| File         | Purpose                                 |
-| ------------ | --------------------------------------- |
-| compiler.py  | Compile parsed scripts into HSC scripts |
-| error.py     | Error handling (command-line)           |
-| parser.py    | Parsing HSC scripts                     |
-| serpent.py   | serpent program (command-line)          |
-| tokenizer.py | Convert scripts into tokens             |
-
 ## Example script
 ```
 global string hello_world = "hello world"
